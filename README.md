@@ -12,6 +12,7 @@ The application runs on port `5000` with database on `5432`.
 
 ### Environment variables
 
+```
 POSTGRES_HOST=localhost
 POSTGRES_DB=my_store
 POSTGRES_USER=postgres
@@ -23,14 +24,17 @@ ENV=DEV BCRYPT_PASSWORD=hihi
 SALT_ROUNDS=10
 TOKEN_SECRET=
 TOKEN_TEST=
+```
 
 ### DATABASE setup:
 
+```
 create database my_store;
 create database my_store_test;
 db-migrate up
 npm run start Docker setup
 'docker-compose up' to start the docker container. Used a init script to create dev and test databases.
+```
 
 ### Jasmine tests
 
