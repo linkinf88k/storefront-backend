@@ -9,7 +9,7 @@ const index = async (_req: Request, res: Response) => {
     const users = await store.index();
     res.json(users);
   } catch (err) {
-console.log('err', err);
+    console.log("err", err);
     res.status(400);
     res.json(err);
   }
@@ -20,7 +20,7 @@ const show = async (req: Request, res: Response) => {
     const user = await store.show(req.params.id);
     res.json(user);
   } catch (err) {
-console.log('err', err);
+    console.log("err", err);
     res.status(400);
     res.json(err);
   }
@@ -41,7 +41,7 @@ const create = async (req: Request, res: Response) => {
     );
     res.json({ ...newUser, accessToken: accessToken });
   } catch (err) {
-console.log('err', err);
+    console.log("err", err);
     res.status(400);
     res.json(err);
   }
@@ -60,16 +60,16 @@ const authenticate = async (req: Request, res: Response) => {
       res.json({ accessToken: accessToken });
     }
   } catch (err) {
-console.log('err', err);
+    console.log("err", err);
     res.status(400);
     res.json(err);
   }
 };
-const user_routes = (app: express.Application) => {
+const userRoutes = (app: express.Application) => {
   app.get("/users", verifyToken, index);
   app.get("/users/:id", verifyToken, show);
   app.post("/users", create);
   app.post("/users/authenticate", authenticate);
 };
 
-export default user_routes;
+export default userRoutes;

@@ -1,4 +1,4 @@
-import Client from "../database";
+import client from "../database";
 
 export type Product = {
   name: string;
@@ -9,7 +9,7 @@ export type Product = {
 export class ProductStore {
   async index(): Promise<Product[]> {
     try {
-      const conn = await Client.connect();
+      const conn = await client.connect();
       const sql = "SELECT * FROM products";
       const result = await conn.query(sql);
       conn.release();
@@ -21,7 +21,7 @@ export class ProductStore {
   async show(name: string): Promise<Product> {
     try {
       const sql = "SELECT * FROM products where name=($1)";
-      const conn = await Client.connect();
+      const conn = await client.connect();
       const result = await conn.query(sql, [name]);
       conn.release();
       return result.rows[0];
@@ -34,7 +34,7 @@ export class ProductStore {
     try {
       const sql =
         "INSERT INTO products (name, price, category) VALUES($1,$2,$3) RETURNING *";
-      const conn = await Client.connect();
+      const conn = await client.connect();
       const result = await conn.query(sql, [p.name, p.price, p.category]);
       const product = result.rows[0];
       conn.release();
@@ -47,7 +47,7 @@ export class ProductStore {
   async delete(id: string): Promise<Product> {
     try {
       const sql = "DELETE FROM products WHERE id=($1)";
-      const conn = await Client.connect();
+      const conn = await client.connect();
       const result = await conn.query(sql, [id]);
       const product = result.rows[0];
       conn.release();
@@ -59,13 +59,13 @@ export class ProductStore {
 
   async productsByCategory(category: string): Promise<Product[]> {
     try {
-      const conn = await Client.connect();
+      const conn = await client.connect();
       const sql = "SELECT * FROM products WHERE category=($1)";
       const result = await conn.query(sql, [category]);
       conn.release();
       return result.rows;
     } catch (err) {
-console.log('err', err);
+      console.log("err", err);
       throw new Error(
         `Could not find any product for ${category}. Error: ${err}`
       );
