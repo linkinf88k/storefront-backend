@@ -82,7 +82,7 @@ const ordersByUser = async (req: Request, res: Response) => {
   }
 };
 
-const order_routes = (app: express.Application) => {
+const orderRoutes = (app: express.Application) => {
   app.get("/orders", verifyToken, index);
   app.get("/orders/:id", verifyToken, show);
   app.get("/orders/user_id/:id", verifyToken, ordersByUser);
@@ -91,4 +91,4 @@ const order_routes = (app: express.Application) => {
   app.get("/users/:id/orders/completed", verifyToken, completedOrders);
 };
 
-export default order_routes;
+export default orderRoutes;

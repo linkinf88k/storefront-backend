@@ -1,4 +1,4 @@
-import Client from "../database";
+import client from "../database";
 import bcrypt from "bcrypt";
 export type User = {
   first_name: string;
@@ -9,7 +9,7 @@ export type User = {
 export class UserStore {
   async index(): Promise<{ first_name: string; last_name: string }[]> {
     try {
-      const conn = await Client.connect();
+      const conn = await client.connect();
       const sql = "SELECT first_name, last_name FROM users";
       const result = await conn.query(sql);
       conn.release();
@@ -25,7 +25,7 @@ export class UserStore {
     try {
       const sql =
         "SELECT first_name, last_name FROM users where first_name=($1)";
-      const conn = await Client.connect();
+      const conn = await client.connect();
       const result = await conn.query(sql, [first_name]);
       conn.release();
       return result.rows[0];
@@ -40,13 +40,13 @@ export class UserStore {
       const sql =
         "INSERT INTO users (first_name, last_name, password) VALUES($1, $2, $3) RETURNING *";
       const hash = bcrypt.hashSync(u.password + pepper, parseInt(saltRounds));
-      const conn = await Client.connect();
+      const conn = await client.connect();
       const result = await conn.query(sql, [u.first_name, u.last_name, hash]);
       const user = result.rows[0];
       conn.release();
       return user;
     } catch (err) {
-console.log('err', err);
+      console.log("err", err);
       throw new Error(`Could not add new user ${u.first_name}. Error: ${err}`);
     }
   }
@@ -57,7 +57,7 @@ console.log('err', err);
   ): Promise<User | null> {
     try {
       const pepper: string = process.env.BCRYPT_PASSWORD as string;
-      const conn = await Client.connect();
+      const conn = await client.connect();
       const sql = "SELECT password FROM users WHERE first_name=($1)";
       const result = await conn.query(sql, [first_name]);
 
@@ -69,7 +69,7 @@ console.log('err', err);
       }
       return null;
     } catch (err) {
-console.log('err', err);
+      console.log("err", err);
       throw new Error(`User authentication failed`);
     }
   }

@@ -12,7 +12,7 @@ const {
   POSTGRES_TEST_DB,
 } = process.env;
 
-let Client = new Pool({
+let client = new Pool({
   host: POSTGRES_HOST,
   database: POSTGRES_TEST_DB,
   user: POSTGRES_USER,
@@ -21,7 +21,7 @@ let Client = new Pool({
 });
 
 if (ENV === "dev") {
-  Client = new Pool({
+  client = new Pool({
     host: POSTGRES_HOST,
     database: POSTGRES_DB,
     user: POSTGRES_USER,
@@ -29,4 +29,4 @@ if (ENV === "dev") {
     port: parseInt(POSTGRES_PORT || "5432"),
   });
 }
-export default Client;
+export default client;

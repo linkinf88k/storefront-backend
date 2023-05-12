@@ -9,7 +9,7 @@ const index = async (_req: Request, res: Response) => {
     const products = await store.index();
     res.json(products);
   } catch (err) {
-console.log('err', err);
+    console.log("err", err);
     res.status(400);
     res.json(err);
   }
@@ -20,7 +20,7 @@ const show = async (req: Request, res: Response) => {
     const product = await store.show("1");
     res.json(product);
   } catch (err) {
-console.log('err', err);
+    console.log("err", err);
     res.status(400);
     res.json(err);
   }
@@ -62,7 +62,7 @@ const productsByCategory = async (req: Request, res: Response) => {
     res.json(error);
   }
 };
-const product_routes = (app: express.Application) => {
+const productRoutes = (app: express.Application) => {
   app.get("/products", index);
   app.get("/products/:id", show);
   app.post("/products", verifyToken, create);
@@ -70,4 +70,4 @@ const product_routes = (app: express.Application) => {
   app.delete("/products/:id", verifyToken, remove);
 };
 
-export default product_routes;
+export default productRoutes;
